@@ -28,4 +28,5 @@ public class GroupCreationTests extends TestBase{
     siubmitGroupCreation();
     returnToGroupPage();
   }
+  
 }

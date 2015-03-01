@@ -1,19 +1,16 @@
 package com.example.tests;
 
-import static org.junit.Assert.fail;
-
+import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.junit.*;
+import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import org.openqa.selenium.support.ui.Select;
+
 
 public class TestBase {
 
@@ -28,7 +25,20 @@ public class TestBase {
 	    baseUrl = "http://localhost/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
+	
+	@AfterTest
+	public void tearDown() throws Exception {
+	    driver.quit();
+	    String verificationErrorString = verificationErrors.toString();
+	    if (!"".equals(verificationErrorString)) {
+	      fail(verificationErrorString);
+	    }
+	  }
 
+	protected void openMainPage() {
+	    driver.get(baseUrl + "/addressbookv4.1.4/");
+	}
+	
 	protected void returnToGroupPage() {
 		
 	    driver.findElement(By.linkText("group page")).click();
@@ -56,19 +66,48 @@ public class TestBase {
 	protected void openGroupsPage() {
 	    driver.findElement(By.linkText("groups")).click();
 	}
-
-	protected void openMainPage() {
-	    driver.get(baseUrl + "/addressbookv4.1.4/");
+	
+	protected void returnToAddNext() {
+		driver.findElement(By.linkText("add next")).click();
 	}
 
-	@AfterTest
-	public void tearDown() throws Exception {
-	    driver.quit();
-	    String verificationErrorString = verificationErrors.toString();
-	    if (!"".equals(verificationErrorString)) {
-	      fail(verificationErrorString);
-	    }
-	  }
+	protected void submitAddNewCreation() {
+		driver.findElement(By.name("submit")).click();
+	}
+
+	protected void fillAddNewForm(ZANewData addNew) {
+		driver.findElement(By.name("firstname")).clear();
+	    driver.findElement(By.name("firstname")).sendKeys(addNew.nameFirst1);
+	    driver.findElement(By.name("lastname")).clear();
+	    driver.findElement(By.name("lastname")).sendKeys(addNew.nameLaste1);
+	    driver.findElement(By.name("address")).clear();
+	    driver.findElement(By.name("address")).sendKeys(addNew.address1);
+	    driver.findElement(By.name("home")).clear();
+	    driver.findElement(By.name("home")).sendKeys(addNew.homa1);
+	    driver.findElement(By.name("mobile")).clear();
+	    driver.findElement(By.name("mobile")).sendKeys(addNew.mobile1);
+	    driver.findElement(By.name("work")).clear();
+	    driver.findElement(By.name("work")).sendKeys(addNew.work1);
+	    driver.findElement(By.name("email")).clear();
+	    driver.findElement(By.name("email")).sendKeys(addNew.email1);
+	    driver.findElement(By.name("email2")).clear();
+	    driver.findElement(By.name("email2")).sendKeys(addNew.email2);
+	    new Select(driver.findElement(By.name("bday"))).selectByVisibleText(addNew.day);
+	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(addNew.month);
+	    driver.findElement(By.name("byear")).clear();
+	    driver.findElement(By.name("byear")).sendKeys(addNew.year);
+	    new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(addNew.groupname1);
+	    driver.findElement(By.name("address2")).clear();
+	    driver.findElement(By.name("address2")).sendKeys(addNew.address2);
+	    driver.findElement(By.name("phone2")).clear();
+	    driver.findElement(By.name("phone2")).sendKeys(addNew.home2);
+	}
+
+	protected void addNew() {
+		driver.findElement(By.linkText("add new")).click();
+	}
+
+	
 
 	private boolean isElementPresent(By by) {
 	    try {
@@ -102,5 +141,4 @@ public class TestBase {
 	      acceptNextAlert = true;
 	    }
 	  }
-
 }
