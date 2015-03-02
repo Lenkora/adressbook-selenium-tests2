@@ -18,7 +18,6 @@ public class ZANewData {
 	public ZANewData() {
 		
 	}
-
 	public ZANewData(String nameFirst1, String nameLaste1, String address1,
 			String homa1, String mobile1, String work1, String email1,
 			String email2, String day, String month, String year,
