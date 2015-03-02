@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.openqa.selenium.support.ui.Select;
 
-
 public class TestBase {
 
 	private static WebDriver driver;

@@ -15,6 +15,7 @@ public class AlsoGroupCreationTests extends TestBase  {
     returnToGroupPage();
   }
   
+  
   @Test
   public void testEmptyGroupCreation() throws Exception {
 	  openMainPage();
